@@ -3,6 +3,7 @@ import urllib.request
 import json
 import time
 import logging
+from psaw import PushshiftAPI
 
 logging.basicConfig(
     filename="pvst.log",
@@ -36,13 +37,15 @@ while True:
 
         logging.info("Logged in as " + str(reddit.user.me()))
 
-        subreddit = reddit.subreddit("PewdiepieSubmissions+pewdiepie")  # subreddits
+        api = PushshiftAPI(reddit)
+        search_time = int(start_time)
+        while True:
+            gen = api.search_comments(after=search_time, q="pvst")
+            first = True
 
-        for comment in subreddit.stream.comments():
-            # Look for keywords in comments
-            if "!pewdsvstseries" in comment.body or "!pvst" in comment.body:
-                # Makes sure that the bot only replies to new comments
-                if comment.created_utc > start_time:
+            for comment in gen:
+                # Look for keywords in comments
+                if "!pvst" in comment.body:
                     logging.info("Processing request")
                     try:
                         subsp = get_sub_count("PewDiePie")
@@ -56,7 +59,7 @@ while True:
                             + "{:,d}".format(int(subst))
                             + "\n\n**Difference**: "
                             + "{:,d}".format(abs(int(subsp) - int(subst)))
-                            + "\n\n_____\n\n^(PewDiePie vs T-Series Bot 1.2) ^[Feedback/Info](https://www.reddit.com/user/pewdsvstseries_bot/comments/abyg5n/pewdiepie_vs_tseries_bot/)"
+                            + "\n\n_____\n\n^(PewDiePie vs T-Series Bot 1.3) ^[Feedback/Info](https://www.reddit.com/user/pewdsvstseries_bot/comments/abyg5n/pewdiepie_vs_tseries_bot/)"
                         )
                         # Log the reply
                         logging.info(
@@ -69,6 +72,10 @@ while True:
                         )
                     except:
                         logging.error("Error while processing")
+                if first:
+                    search_time = int(comment.created_utc)
+                    first = False
+            time.sleep(2)
     except:
         logging.error("Cannot connect")
 
