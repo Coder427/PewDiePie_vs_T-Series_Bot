@@ -59,7 +59,7 @@ while True:
                             + "{:,d}".format(int(subst))
                             + "\n\n**Difference**: "
                             + "{:,d}".format(abs(int(subsp) - int(subst)))
-                            + "\n\n_____\n\n^(PewDiePie vs T-Series Bot 1.3) ^[Feedback/Info](https://www.reddit.com/user/pewdsvstseries_bot/comments/abyg5n/pewdiepie_vs_tseries_bot/)"
+                            + "\n\n_____\n\n^(PewDiePie vs T-Series Bot 1.3) ^\[[Feedback/Info](https://www.reddit.com/user/pewdsvstseries_bot/comments/abyg5n/pewdiepie_vs_tseries_bot/)\] ^\[[LiveSubCount](https://www.reddit.com/user/pewdsvstseries_bot/comments/aunvok/pewdiepie_vs_tseries_live_sub_count/)\]"
                         )
                         # Log the reply
                         logging.info(
